@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+
+{% block body%}
+        <h1 >TODO LIST</h1>
+    
+        <ol>
+            {% for task in tasks %}
+                <li> {{ task }} </li>
+
+                {% empty %}
+                    <li>no task</li>
+            {% endfor %}
+
+             <a href="{% url 'todo:add'%}" style=" color: aliceblue; font-size: small; text-decoration: none;"> Add a task</a> 
+        </ol>
+{% endblock %}
+
+   
