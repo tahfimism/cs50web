@@ -1,0 +1,27 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    New entry
+{% endblock %}
+
+{% block body %}
+    <h1> Add a entry</h1>
+
+    {% if message %}
+        <h4 style="color: rgb(255, 0, 0); ">
+            {{ message }}
+        </h4>
+    {% endif %}
+
+    <form action="{% url 'new' %}" method="post">
+        {% csrf_token %}
+        
+        <input type="text" name="title" placeholder="title" required>
+        <br>
+        <label for="content">write your content in markdown here:</label>
+        <textarea id="content" name="content" rows="5" cols="30" placeholder="enter your content" required > </textarea>
+        <br>
+        <input type="submit" value="Submit">
+    </form>
+    
+{% endblock %}

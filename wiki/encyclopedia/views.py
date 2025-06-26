@@ -59,3 +59,18 @@ def randomentry(request):
     entries = util.list_entries()
     title = random.choice(entries)
     return redirect("entry", title=title)
+
+
+
+
+def editpage(request, title):
+    if request.method == "GET":
+        content = util.get_entry(title)
+        return render(request, "encyclopedia/edit.html", {
+            "title": title,
+            "content": content
+        })
+    elif request.method == "POST":
+        content = request.POST.get("content", "").strip()
+        util.save_entry(title, content)
+        return redirect("entry", title=title)
