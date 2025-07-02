@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo</title>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const taskinput = document.querySelector('#task');
+            const submitbutton = document.querySelector('#add');
+            const tasks = document.querySelector('#tasks');
+
+            // disable button
+            submitbutton.disabled = true;
+            taskinput.onkeyup = function() {
+                if (taskinput.value.length > 0) {
+                    submitbutton.disabled = false;
+                }
+                else {
+                    submitbutton.disabled = true;
+                }
+            };
+
+
+            document.querySelector('form').onsubmit = () => {
+                
+                const newtask = document.createElement('li');             
+                newtask.innerHTML = taskinput.value;
+                tasks.append(newtask);
+
+                taskinput.value = '';
+                taskinput.focus();
+                submitbutton.disabled = true;
+
+                
+
+                // dont submit
+                return false;
+            }
+        })
+
+    </script>
+
+</head>
+<body>
+
+    <h1>Todo List</h1>
+
+    <ul id="tasks">
+
+    </ul>
+
+    <form>
+        <input id="task" type="text" placeholder="add task" autofocus required>
+        <input type="submit" id="add">
+    </form>
+
+</body>
+</html>

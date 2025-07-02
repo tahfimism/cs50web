@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>api</title>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+
+            fetch('https://api.exchangeratesapi.io/latest?access_key=1b1d5f0dbcfd4a2acf3766e59d37f2e0')
+            .then(response => {
+                return response.json()
+            })
+            .then(data => {
+                let value = data.rates.BDT
+                document.querySelector('body').innerHTML = value
+            })
+        })
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

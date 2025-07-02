@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hellow</title>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('form').onsubmit = function (event) {
+                event.preventDefault(); // Prevent form from submitting and reloading the page
+                let name = document.querySelector('#name').value;
+                alert(`helooo ${name}`) 
+            }
+        });
+    </script>
+
+</head>
+<body>
+    <h1>helooo</h1>
+    <form >
+        <input id="name" type="text" placeholder="ur name">
+        <input type="submit">
+    </form>
+</body>
+</html>

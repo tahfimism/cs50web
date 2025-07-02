@@ -6,7 +6,12 @@
 
 <h2>Create listing</h2>
 
+{% if message %}
+    <div style="color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; border-radius: .25rem; padding: .75rem 1.25rem; margin-bottom: 1rem;">{{ message }}</div>
+{% endif %}
+
 <form action="{% url 'create' %}" method="post">
+    {% csrf_token %}
     <label>Listing name: </label>
     <input required type="text" name="title" placeholder="Item name"> <br><br>
 
@@ -14,8 +19,8 @@
     <input required type="number" name="starting_bid" placeholder="starting bid"><br><br>
 
     <label>Choose category </label>
-    <select name="category" >
-        <option value="" disabled selected>Categories</option>
+    <select name="category" required >
+        <option value="" selected>Categories</option>
         {% for category in categories %}
             <option value="{{ category.id }}" > {{ category.name }} </option>
         {% endfor %}
@@ -27,6 +32,7 @@
     <label>Description:</label><br>
     <textarea name="description" placeholder="item description" rows="2" cols="50"></textarea>
 <br><br>
+    <input type="submit" value="Create Listing" class="btn btn-primary">
 </form>
 
 

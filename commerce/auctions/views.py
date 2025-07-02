@@ -19,7 +19,7 @@ def item(request, item_id):
     item = Item.objects.get(pk=item_id)
     bids = item.bids.all().order_by('-amount')
     price = bids.order_by('-amount').first().amount if bids.exists() else item.starting_bid
-    message = None
+    message = request.session.pop('message', None)
     winning_bidder = None
 
     if request.method == "POST":
@@ -27,10 +27,11 @@ def item(request, item_id):
         if "watchlist_action" in request.POST:
             if request.POST["watchlist_action"] == "add":
                 request.user.watchlist.add(item)
-                message = "Added to watchlist"
+                request.session['message'] = "Added to watchlist"
             else:
                 request.user.watchlist.remove(item)
-                message = "Removed from watchlist"
+                request.session['message'] = "Removed from watchlist"
+            return HttpResponseRedirect(reverse("item", args=(item_id,)))
 
         # Bidding actions
         elif "bid_place" in request.POST:
@@ -39,29 +40,29 @@ def item(request, item_id):
                 bid_placed = float(bid_input)
                 if (bids.exists() and bid_placed > bids.first().amount) or ((not bids.exists()) and bid_placed > item.starting_bid):
                     Bid.objects.create(amount=bid_placed, item=item, bidder=request.user)
-                    message = "Bid successful"
+                    request.session['message'] = "Bid successful"
                 else:
-                    message = "Bid too low"
+                    request.session['message'] = "Bid too low"
             except (TypeError, ValueError):
-                message = "Invalid bid amount."
+                request.session['message'] = "Invalid bid amount."
+            return HttpResponseRedirect(reverse("item", args=(item_id,)))
 
         # Comment actions
         elif "comment_text" in request.POST:
             comment_text = request.POST.get("comment_text")
             if comment_text and request.user.is_authenticated:
                 Comment.objects.create(text=comment_text, item=item, by=request.user)
-                message = "Comment added."
+                request.session['message'] = "Comment added."
+            return HttpResponseRedirect(reverse("item", args=(item_id,)))
 
         # Close auction
         elif "close_auction" in request.POST and request.user == item.owner:
             item.isopen = False
             item.owner = item.bids.order_by('-amount').first().bidder
             item.save()
-            message = f"Auction closed. Item is now owned by {item.owner}"
+            request.session['message'] = f"Auction closed. Item is now owned by {item.owner}"
+            return HttpResponseRedirect(reverse("item", args=(item_id,)))
 
-    
-
-    # Always render once at the end
     return render(request, "auctions/item.html", {
         "item": item,
         "price": price,
@@ -100,18 +101,25 @@ def category(request, category_name):
 def create(request):
     if request.method == "POST":
         form = request.POST
+        category_id = form["category"]
+        if not category_id:
+            request.session['message'] = "Please select a category."
+            return HttpResponseRedirect(reverse("create"))
+
         Item.objects.create(
             title=form["title"],
             starting_bid=form["starting_bid"],
-            category=Category.objects.get(pk=form["category"]),
+            category=Category.objects.get(pk=category_id),
             image=form["image_url"],
             description=form["description"],
             isopen=True,
             owner=request.user
         )
         return HttpResponseRedirect(reverse("index"))
+    message = request.session.pop('message', None)
     return render(request, "auctions/create.html", {
-        "categories": Category.objects.all()
+        "categories": Category.objects.all(),
+        "message": message
     })
 
 
@@ -174,3 +182,11 @@ def register(request):
         return render(request, "auctions/register.html")
 
 
+
+def comment(request, item_id):
+    if request.method == "POST":
+        item = Item.objects.get(pk=item_id)
+        text = request.POST.get("text")
+        Comment.objects.create(text=text, item=item, by=request.user)
+        return HttpResponseRedirect(reverse("item", args=(item_id,)))
+    return HttpResponseRedirect(reverse("index"))

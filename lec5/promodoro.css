@@ -1,0 +1,55 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #3B82F6; /* Blue for work */
+    color: white;
+    transition: background-color 0.5s ease;
+}
+
+#container {
+    text-align: center;
+}
+
+#mode {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+#time {
+    font-size: 7rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+}
+
+#buttons button {
+    background-color: white;
+    color: #3B82F6; /* Blue text */
+    border: none;
+    padding: 1rem 2rem;
+    margin: 0 0.5rem;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+#buttons button:hover {
+    transform: scale(1.05);
+}
+
+#buttons button:active {
+    transform: scale(1);
+}
+
+/* Class for break mode */
+body.break-mode {
+    background-color: #16A34A; /* Green for break */
+}
+
+body.break-mode #buttons button {
+    color: #16A34A; /* Green text */
+}

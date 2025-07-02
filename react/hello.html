@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <title>Hello</title>
+
+        
+    </head>
+    <body>
+        <div id="app"></div>
+        
+        <script type="text/babel">
+            
+            function App(props) {
+
+                return (
+                    <h2> Hello {props.to} </h2>
+                )
+            }
+
+            function Repeat () {
+                return (
+                    <div>
+                        <App to="me"/>
+                        <App to="u" />
+                    </div>
+                )
+            }
+
+            ReactDOM.render(<Repeat />, document.querySelector('#app'))
+        </script>
+    </body>
+</html>

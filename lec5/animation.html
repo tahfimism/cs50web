@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+
+        @keyframes wee {
+            0% {
+                
+                height: 200px;
+                
+            }
+            10% {
+                
+                height: 200px;
+                
+            }
+            50% {
+                
+                height: 0px;
+                
+                
+            }
+            100% {
+                height: 200px;
+                
+            }
+        }
+
+        div {
+            position: relative;
+            animation-name: wee;
+            animation-duration: 5s;
+            animation-fill-mode: forwards;
+            background-color: aquamarine;
+            animation-iteration-count: infinite;
+
+        }
+
+    </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const diva = document.querySelector('#diva');
+            diva.style.animationPlayState = 'paused';
+
+            document.querySelector('button').onclick = () => {
+                if (diva.style.animationPlayState == 'paused') {
+                    diva.style.animationPlayState = 'running'
+                }
+                else {
+                    diva.style.animationPlayState = 'paused'
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+    <button>click</button>
+    <div id="diva">
+    <h1>weeeee</h1></div>
+</body>
+</html>
